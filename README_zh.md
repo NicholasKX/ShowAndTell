@@ -5,7 +5,7 @@
 <h4 align="center">
     <p>
         <b>简体中文</b> |
-        <a href="https://openi.pcl.ac.cn/Kayxxx/ShowAndTell/src/branch/master/README.md">English</a>
+        <a href="https://github.com/NicholasKX/ShowAndTell/blob/main/README.md">English</a>
     </p>
 </h4>
 
