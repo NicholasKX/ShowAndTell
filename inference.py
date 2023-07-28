@@ -5,6 +5,7 @@ Created on 2023/7/28 12:33
 @File  : inference.py 
 @Desc  : inference 
 """
+import argparse
 import os
 import re
 import mindspore
@@ -60,13 +61,19 @@ def get_bleu_score(dataset, model, vocab):
 
 
 if __name__ == '__main__':
-    vocab = Vocabulary(5)
+    parser = argparse.ArgumentParser(description='Train the Show and Tell network')
+    parser.add_argument('--model_path',
+                        help='path to model',
+                        default='model_saved/model_4.ckpt')
+    parser.add_argument('--img_path', help='path to image',
+                        default='demo.jpg')
 
+    args = parser.parse_args()
+    vocab = Vocabulary(5)
     model = CNN2RNN(embed_size=300, hidden_size=512, vocab_size=len(vocab), num_layers=1,
                     resnet50_ckpt="pretrained_model/resnet50_224_new.ckpt")
-    param_dict = mindspore.load_checkpoint("model_saved/model_0.ckpt")
+    param_dict = mindspore.load_checkpoint(args.model_path)
     param_not_load, _ = mindspore.load_param_into_net(model, param_dict)
-    print(param_not_load)
-    dataset = TestDatasetForBLEU("flickr8k")
-    # inference(img_path="Flicker8k_Dataset/667626_18933d713e.jpg", model=model, vocab=vocab)
-    get_bleu_score(dataset, model, vocab)
+    # print(param_not_load)
+    inference(img_path=args.img_path, model=model, vocab=vocab)
+    # get_bleu_score(dataset, model, vocab)
